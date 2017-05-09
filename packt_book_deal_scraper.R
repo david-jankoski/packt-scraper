@@ -2,14 +2,11 @@ library("tidyverse")
 library("png")
 library("notifier")
 
-# path to where you want the data to be saved
-proj_path <- "C:/Users/DavidJankoski/Desktop/r_files/packt_book_of_day/" 
-today <- format(Sys.Date(), "%d%m%g")
-
 # path for the csv file
-csv_path <- paste0(proj_path, "packt_book_deals.csv")
+csv_path <- file.path( getwd(), "packt_book_deals.csv")
 # path for the image
-image_path <- paste0(proj_path, "img/image_", today, ".png")
+today_img <- paste0( "image_", format( Sys.Date(), "%d%m%g" ), ".png")
+image_path <- file.path( getwd(), "img", today_img )
 
 # packt url for free learning deal of the day
 packt <- "https://www.packtpub.com/packt/offers/free-learning"
@@ -37,7 +34,7 @@ deal_of_the_day <-
 # write csv
 append_to_file <- file.exists(csv_path)
 
-readr::write_csv(data_frame(Date = Sys.Date(), Book = deal_of_the_day),
+readr::write_csv(data_frame( Date = Sys.Date(), Book = deal_of_the_day ),
                  path = csv_path, 
                  append = append_to_file,
                  col_names = !append_to_file)
@@ -46,5 +43,4 @@ readr::write_csv(data_frame(Date = Sys.Date(), Book = deal_of_the_day),
   notifier::notify(
     title = "Packt book deal of the day",
     msg = deal_of_the_day[1],
-    image = image_path
-    )
+    image = image_path)
