@@ -14,13 +14,20 @@ proj_dir <- dirname( gsub("--file=", "", proj_dir) )
 
 # path to todays img
 today_img <- paste0( "image_" , format( Sys.Date(), "%d%m%g" ), ".png" )
-todays_img <- file.path( proj_dir, "img", today_img )
+image_path <- file.path( proj_dir, "img", today_img )
 
-if ( !file.exists(todays_img) ) {
+if ( !file.exists(image_path) ) {
   # path to rscript.exe
-  rscript_path <- file.path( R.home(), "bin", "Rscript.exe" )
+  rscript_exe <- file.path( R.home(), "bin", "Rscript.exe" )
   # path to script
   script_path <- file.path( proj_dir, "packt_book_deal_scraper.R" )
   # run
-  system2(rscript_path, script_path)
+  system2(rscript_exe, script_path)
+} else {
+  # desktop notification
+  notifier::notify(
+    title = "Packt book deal of the day",
+    msg = "You got already today's deal",
+    image = image_path)
+  
 }
