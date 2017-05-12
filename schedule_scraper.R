@@ -16,4 +16,5 @@ taskscheduleR::taskscheduler_create(taskname = "packt_book_scraper",
                                     rscript = script_path, 
                                     schedule = "ONLOGON", 
                                     Rexe = rscript_path, 
-                                    starttime = Sys.Date() + 1)
+                                    starttime = Sys.Date()
+                                    )
