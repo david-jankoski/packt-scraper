@@ -7,14 +7,14 @@
 library("taskscheduleR")
 
 # path to Rscript.exe
-rscript_path <- file.path( R.home(), "bin", "Rscript.exe" )
+rscript_exe <- file.path( R.home(), "bin", "Rscript.exe" )
 # path to the check-and-run script
-script_path <- file.path( getwd(), "scheduled_task", "check_and_run_scraper.R" )
+script_path <- file.path( getwd(), "check_and_run_scraper.R" )
 
 # schedule script to run 
 taskscheduleR::taskscheduler_create(taskname = "packt_book_scraper", 
                                     rscript = script_path, 
                                     schedule = "ONLOGON", 
-                                    Rexe = rscript_path, 
+                                    Rexe = rscript_exe, 
                                     starttime = Sys.Date()
                                     )
