@@ -2,11 +2,21 @@ library("tidyverse")
 library("png")
 library("notifier")
 
+# find out from cmd args in which dir is this project sitting
+cmd_args <- commandArgs()
+proj_dir <- 
+  grep(
+    "packt_book_of_day/packt_book_deal_scraper.R", 
+    cmd_args, 
+    value = TRUE
+  )
+proj_dir <- dirname( gsub("--file=", "", proj_dir) )
+
 # path for the csv file
-csv_path <- file.path( getwd(), "packt_book_deals.csv")
+csv_path <- file.path(proj_dir, "packt_book_deals.csv")
 # path for the image
 today_img <- paste0( "image_", format( Sys.Date(), "%d%m%g" ), ".png")
-image_path <- file.path( getwd(), "img", today_img )
+image_path <- file.path(proj_dir, "img", today_img )
 
 # packt url for free learning deal of the day
 packt <- "https://www.packtpub.com/packt/offers/free-learning"
