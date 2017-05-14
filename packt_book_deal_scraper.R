@@ -1,9 +1,12 @@
 library("tidyverse")
-library("png")
 library("notifier")
+library("magick")
+
+# Locate project dir -----
 
 # find out from cmd args in which dir is this project sitting
 cmd_args <- commandArgs()
+
 proj_dir <- 
   grep(
     "packt_book_of_day/packt_book_deal_scraper.R", 
@@ -12,14 +15,11 @@ proj_dir <-
   )
 proj_dir <- dirname( gsub("--file=", "", proj_dir) )
 
-# path for the csv file
-csv_path <- file.path(proj_dir, "packt_book_deals.csv")
-# path for the image
-today_img <- paste0( "image_", format( Sys.Date(), "%d%m%g" ), ".png")
-image_path <- file.path(proj_dir, "img", today_img )
-
 # packt url for free learning deal of the day
 packt <- "https://www.packtpub.com/packt/offers/free-learning"
+
+
+# Scrape book deal of the day -----
 
 # read html, extract all h2 headers and pretty format
 # orig pattern "^<h2>|[[:space:]]|</h2>$"
@@ -30,18 +30,41 @@ deal_of_the_day <-
   stringr::str_replace_all(pattern = "^<h2>|\t|\n|</h2>$", replacement = "") %>%
   .[1]
 
-# scrape the image for the book 
+# scrape the image for the book
+
+# read in the img string
+img_link <- 
   packt %>%
   xml2::read_html() %>%
   rvest::html_nodes(".dotd-main-book-image") %>%
   rvest::html_node("img") %>%
   rvest::html_attr("src") %>%
-  stringr::str_sub(start = 3L) %>%
-  httr::GET() %>%
-  httr::content() %>%
-  png::writePNG(target = image_path)
+  stringr::str_replace_all(" ", "%20")
+
+# get the format of today's img
+img_formats <- c(".jpg", ".jpeg", ".png") 
+
+todays_format <- 
+  stringr::str_detect(img_link, c(".jpg$", ".jpeg$", ".png$")) %>% 
+  img_formats[.]
+
+# construct path for saving the img
+today_img <- paste0( "image_", format( Sys.Date(), "%d%m%g" ), todays_format)
+image_path <- file.path(getwd(), "img", today_img )
+
+# write out img
+img_link %>% 
+  paste0("http:", .) %>% 
+  magick::image_read() %>% 
+  magick::image_write(path = image_path)
+  
 
 # write csv
+
+# path for the csv file
+csv_path <- file.path(proj_dir, "packt_book_deals.csv")
+
+# should we append to pre-existing or create new file
 append_to_file <- file.exists(csv_path)
 
 readr::write_csv(data_frame( Date = Sys.Date(), Book = deal_of_the_day ),
