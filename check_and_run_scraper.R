@@ -2,6 +2,9 @@
 # already exists in the img/ dir - and runs if no such file name 
 # was found.
 
+library("lubridate")
+library("notifier")
+
 # find out from cmd args in which dir is this project sitting
 cmd_args <- commandArgs()
 proj_dir <- 
@@ -16,7 +19,11 @@ proj_dir <- dirname( gsub("--file=", "", proj_dir) )
 today_img <- paste0( "image_" , format( Sys.Date(), "%d%m%g" ), ".png" )
 image_path <- file.path( proj_dir, "img", today_img )
 
-if ( !file.exists(image_path) ) {
+# check if its after noon and the deal from the day
+# before has been updated
+after_noon <- lubridate::hour(Sys.time()) > 12L
+
+if ( !file.exists(image_path) && after_noon ) {
   # path to rscript.exe
   rscript_exe <- file.path( R.home(), "bin", "Rscript.exe" )
   # path to script
