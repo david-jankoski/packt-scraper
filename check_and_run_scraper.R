@@ -36,5 +36,5 @@ if ( !file.exists(image_path) && after_noon ) {
     title = "Packt book deal of the day",
     msg = "You got already today's deal",
     image = image_path)
-  
 }
+
