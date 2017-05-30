@@ -73,7 +73,7 @@ readr::write_csv(data_frame( Date = Sys.Date(), Book = deal_of_the_day ),
                  col_names = !append_to_file)
   
 # desktop notification
-  notifier::notify(
-    title = "Packt book deal of the day",
-    msg = deal_of_the_day[1],
-    image = image_path)
+notifier::notify(
+  title = "Packt book deal of the day",
+  msg = deal_of_the_day[1],
+  image = image_path)
