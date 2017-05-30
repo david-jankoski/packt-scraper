@@ -16,25 +16,18 @@ proj_dir <-
 proj_dir <- dirname( gsub("--file=", "", proj_dir) )
 
 # path to todays img
-today_img <- paste0( "image_" , format( Sys.Date(), "%d%m%g" ), ".png" )
-image_path <- file.path( proj_dir, "img", today_img )
+today_img <- paste0( "image_" , format( Sys.Date(), "%d%m%g" ) )
+img_exists <- length( list.files(path = "img/", pattern = today_img) )
 
 # check if its after noon and the deal from the day
 # before has been updated
 after_noon <- lubridate::hour(Sys.time()) > 12L
 
-if ( !file.exists(image_path) && after_noon ) {
+if ( !img_exists && after_noon ) {
   # path to rscript.exe
   rscript_exe <- file.path( R.home(), "bin", "Rscript.exe" )
   # path to script
   script_path <- file.path( proj_dir, "packt_book_deal_scraper.R" )
   # run
   system2(rscript_exe, script_path)
-} else {
-  # desktop notification
-  notifier::notify(
-    title = "Packt book deal of the day",
-    msg = "You got already today's deal",
-    image = image_path)
 }
-
