@@ -28,9 +28,10 @@ img_exists <-
 after_noon <- TRUE
 if ( !img_exists && after_noon ) {
   # path to rscript
-  rscript_exe <- file.path( R.home(), "bin", "Rscript" )
+  rscript <- file.path( R.home(), "bin", "Rscript" )
+  if (.Platform$OS.type == "windows" ) rscript <- paste0(rscript, ".exe")
   # path to script
   script_path <- file.path( proj_dir, "packt_book_deal_scraper.R" )
   # run
-  system2(rscript_exe, script_path)
+  system2(rscript, script_path)
 }
