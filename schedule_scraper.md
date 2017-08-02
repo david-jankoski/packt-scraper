@@ -3,10 +3,10 @@ This is a brief explanation on how to schedule a task to run on each log on.
 ## Linux 
 
 Since the cron utility does not offer `ONLOGON` option (or I could not figure out how), the simplest way I found was:  
- 1. make a small bash script ...
+ 1. make a small bash script...  
     `sudo gedit packt_scraper_schtask.sh`  
  
- 2. ... containing the following 3 lines ...  
+ 2. ...containing the following 3 lines...  
     ```
     #!/bin/bash
     
@@ -14,12 +14,12 @@ Since the cron utility does not offer `ONLOGON` option (or I could not figure ou
     /usr/bin/Rscript ~/projects/packt-scraper/R/check_and_run_scraper.R
     ``` 
   
-  3. give it permissions  
+  3. give it permissions...  
     `chmod +x packt_scraper_schtask.sh`  
+    
+  4. ...and add it to the startup applications in `gnome-sessions-properties`.  
   
-  4. and add it to the startup applications in `gnome-sessions-properties`  
-
-I followed the approach outlined in [this](https://askubuntu.com/questions/206432/how-can-i-write-a-shell-script-that-will-run-at-startup-and-introduce-a-delay-in) and it worked for me.  
+I followed the approach outlined in [this answer](https://askubuntu.com/questions/206432/how-can-i-write-a-shell-script-that-will-run-at-startup-and-introduce-a-delay-in) and it worked for me.  
 The task itself has a 3 minute delay - which means the notification should pop up 3 minutes after login.  
 
 ## Windows
@@ -33,8 +33,7 @@ if (!require("taskscheduleR"))
 library("taskscheduleR")
 
 # path to Rscript
-rscript <- file.path( R.home(), "bin", "Rscript" )
-if (.Platform$OS.type == "windows" ) rscript <- paste0(rscript, ".exe")
+rscript_exe <- file.path( R.home(), "bin", "Rscript.exe" )
 
 # path to the check-and-run script
 proj_dir <- # getwd()  # if you cloned this as Rproj
