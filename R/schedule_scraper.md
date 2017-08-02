@@ -11,7 +11,9 @@ sleep 180
 /usr/bin/Rscript ~/projects/packt-scraper/R/check_and_run_scraper.R
 ``` 
 
-# Windows
+which would be executed on each startup - itself has a 3 minute delay 
+
+## Windows
 
 The windows task scheduler utility does have a ONLOGON option which makes it even easier and we can do everything from withing R itself.  
 

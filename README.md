@@ -1,17 +1,17 @@
-# Packt Book of the Day Scraper
+## Packt Book of the Day Scraper
 
 A small project that pushes desktop notifications to the user about free book of the day deal from the Packt website.  
 
-# Packt Website
+## Packt Website
 
 [Packt](https://www.packtpub.com/) is a website that offers learning materials for various kinds of IT related things. Each day there is a different book offered as a book-of-the-day deal for [free](https://www.packtpub.com/packt/offers/free-learning)!  
 
-# Motivation  
+## Motivation  
 
 Usually (at least for me) these things end up in some dark corner in the bookmarks - maybe I would go back and check the website for a couple of days in a row, but then I would slowly forget about it and every now and then remember to check back in on some free learning materials.  
 So I thought to piece together a small scraper that would get the book deal of the day and push a desktop notification when i log in. That way I could stay informed and never miss the chance to obtain some nice material on a topic of interest.  
 
-# Code
+## Code
 
 The code is really just 2 `R` scripts sitting in the `R/` dir.  
 
@@ -22,6 +22,6 @@ The code is really just 2 `R` scripts sitting in the `R/` dir.
 In the `data/` dir some sample data and images can be found.
 
 
-# Scheduling the scraper
+### Scheduling the scraper
 
 I included a short explanation on easy ways to turn this into a scheduled task on linux and windows machines in `schedule_scraper.R`
